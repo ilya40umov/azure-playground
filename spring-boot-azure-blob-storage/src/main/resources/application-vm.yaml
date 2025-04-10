@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: INFO
+
+spring:
+  cloud:
+    azure:
+      credential:
+        managed-identity-enabled: true

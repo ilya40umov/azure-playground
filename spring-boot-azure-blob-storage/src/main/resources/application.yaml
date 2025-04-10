@@ -1,3 +1,18 @@
 spring:
   application:
     name: spring-boot-azure-blob-storage
+
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: true
+          property-sources[0]:
+            name: spring-boot-azure-kv-property-source
+            endpoint: https://spring-boot-azure-kv.vault.azure.net/
+
+      storage:
+        blob:
+          account-name: "sbootblobstorage34ff34ab"
+          account-key: "${storage-access-key}"
+
