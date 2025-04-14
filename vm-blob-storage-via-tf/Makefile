@@ -14,7 +14,7 @@ build:
 
 rebuild: build
 
-.PHONY: tf-init tf-apply tf-destroy
+.PHONY: tf-init tf-plan tf-apply tf-destroy
 
 # Usage: make tf-init
 tf-init:

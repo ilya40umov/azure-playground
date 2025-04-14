@@ -6,16 +6,19 @@ SHELL := bash
 help:
 	@cat Makefile | grep "^# Usage:"
 
-# Usage: make .env
-.env:
+.PHONY: .venv
+
+# Usage: make .venv
+.venv:
 	python -m venv .venv
-	@printf "Make sure to run: \n\t\t\t source .venv/bin/activate"
+	source .venv/bin/activate && pip install -r requirements.txt
+	@printf "Make sure to run: \n\t\t\t source .venv/bin/activate \n\n"
 
 .PHONY: run-locally
 
 # Usage: make run-locally
 run-locally:
-	@printf "To test function run: \n\t\t\t curl http://localhost:7071/api/AzurePythonDemoFunc"
+	@printf "To test function run: \n\t\t\t curl http://localhost:7071/api/AzurePythonDemoFunc \n\n"
 	source .venv/bin/activate && func start
 
 .PHONY: make create-infra
@@ -37,4 +40,4 @@ destroy-infra:
 # Usage: make deploy
 deploy:
 	func azure functionapp publish azure-python-demo-func-7	
-	@printf "To test run: \n\t\t\t curl https://azure-python-demo-func-7.azurewebsites.net/api/azurepythondemofunc"
+	@printf "To test run: \n\t\t\t curl https://azure-python-demo-func-7.azurewebsites.net/api/azurepythondemofunc \n\n"
