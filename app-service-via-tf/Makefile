@@ -11,14 +11,14 @@ help:
 # Usage: make venv
 venv:
 	python -m venv .venv
-	source .venv/bin/activate && pip install -r func_code/requirements.txt
+	source .venv/bin/activate && pip install -r app_code/requirements.txt
 	@printf "Make sure to run: \n\t\t\t source .venv/bin/activate \n\n"
 
 .PHONY: zip
 
 # Usage: make zip
 zip:
-	cd func_code && zip -r ../function.zip .
+	cd app_code && zip -r ../app.zip .
 
 .PHONY: tf-init tf-plan tf-apply tf-destroy
 
@@ -30,11 +30,12 @@ tf-init:
 tf-apply:
 	terraform -chdir=infra apply -var-file=.tfvars
 
-# Usage: make tf-plan
-tf-plan:
-	terraform -chdir=infra plan -var-file=.tfvars
-
 # Usage: make tf-destroy
 tf-destroy:
 	terraform -chdir=infra destroy -var-file=.tfvars
 
+.PHONY: deploy
+
+# Usage: make deploy
+deploy:
+	az webapp deploy --resource-group app-service-tf-rg --name app-service-343nde --type zip --src-path app.zip
