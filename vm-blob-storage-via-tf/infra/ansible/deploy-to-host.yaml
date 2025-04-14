@@ -1,0 +1,86 @@
+---
+- name: Deploy JAR file and set up systemd service
+
+  hosts: all
+  become: yes
+  gather_facts: false
+
+  vars:
+    username: appuser
+
+  tasks:
+    - name: Install OpenJDK (Java Runtime Environment)
+      apt:
+        name: openjdk-21-jre
+        state: present
+        update_cache: yes
+
+    - name: Create dedicated user for running the application
+      user:
+        name: "{{ username }}"
+        state: present
+        create_home: yes
+        shell: /bin/bash
+        comment: "Dedicated user for running Java application"
+
+    - name: Ensure the directory in /opt exists
+      file:
+        path: /opt/azure-blob-storage
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0755"
+
+    - name: Copy JAR file to remote host
+      copy:
+        src: ../../build/libs/azure-blob-storage.jar
+        dest: /opt/azure-blob-storage/app.jar
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0755"
+
+    - name: Ensure the directory in /var/log exists
+      file:
+        path: /var/log/azure-blob-storage
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0755"
+
+    - name: Create a systemd service file
+      copy:
+        dest: /etc/systemd/system/azure-blob-storage.service
+        content: |
+          [Unit]
+          Description=Spring Boot Azure Blob Storage
+          After=network.target
+
+          [Service]
+          User={{ username }}
+          Group={{ username }}
+          ExecStart=/usr/bin/java -jar /opt/azure-blob-storage/app.jar
+          Restart=always
+          RestartSec=3
+          Environment=JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+          Environment=SPRING_PROFILES_ACTIVE=vm
+          StandardOutput=append:/var/log/azure-blob-storage/output.log
+          StandardError=append:/var/log/azure-blob-storage/error.log
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: "0644"
+
+    - name: Reload systemd to recognize the new service
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable the service to start on boot
+      systemd:
+        name: azure-blob-storage.service
+        enabled: yes
+
+    - name: Start (or restart) the service
+      systemd:
+        name: azure-blob-storage.service
+        state: restarted
+...
