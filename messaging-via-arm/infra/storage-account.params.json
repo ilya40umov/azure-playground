@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westeurope"
+    },
+    "storageAccountName": {
+      "value": "messagingviaarm"
+    },
+    "accountType": {
+      "value": "Standard_LRS"
+    },
+    "kind": {
+      "value": "StorageV2"
+    },
+    "allowSharedKeyAccess": {
+      "value": true
+    },
+    "accessTier": {
+      "value": "Hot"
+    },
+    "publicNetworkAccess": {
+      "value": "Enabled"
+    },
+    "networkAclsBypass": {
+      "value": "AzureServices"
+    },
+    "networkAclsDefaultAction": {
+      "value": "Allow"
+    },
+    "networkAclsIpRules": {
+      "value": []
+    },
+    "containerName": {
+      "value": "uploads"
+    },
+    "queueName": {
+      "value": "uploads-notifications"
+    }
+  }
+}

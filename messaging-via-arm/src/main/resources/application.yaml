@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: messaging-app
+
+  cloud:
+    azure:
+      storage:
+        queue:
+          account-name: messagingviaarm
+          queue-name: uploads-notifications
+
+      servicebus:
+        namespace: messaging-via-arm-bus
+        entity-type: queue
+        entity-name: uploads-notifications
