@@ -6,10 +6,10 @@ SHELL := bash
 help:
 	@cat Makefile | grep "^# Usage:"
 
-.PHONY: .venv
+.PHONY: venv
 
-# Usage: make .venv
-.venv:
+# Usage: make venv
+venv:
 	python -m venv .venv
 	source .venv/bin/activate && pip install -r requirements.txt
 	@printf "Make sure to run: \n\t\t\t source .venv/bin/activate \n\n"

@@ -5,7 +5,7 @@
 #### Create venv
 
 ```commandline
-make .env
+make venv
 ```
 
 #### To start locally

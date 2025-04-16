@@ -2,6 +2,12 @@
 
 ### Commands
 
+#### Create venv
+
+```commandline
+make venv
+```
+
 #### To package the app
 
 ```shell
