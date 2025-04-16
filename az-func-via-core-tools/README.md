@@ -1,32 +1,32 @@
-# Azure Functions - Example in Python
+# Azure Functions (in Python) deployed via Core Tools
 
-https://learn.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-python
+### Commands
 
-### Create venv
+#### Create venv
 
 ```commandline
 make .env
 ```
 
-### To start locally
+#### To start locally
 
 ```commandline
 make run-locally
 ```
 
-### To create infra in Azure
+#### To create infra in Azure
 
 ```commandline
 make create-infra
 ```
 
-### To deploy to Azure
+#### To deploy to Azure
 
 ```commandline
 make deploy
 ```
 
-To clean up resources:
+#### To clean up resources:
 ```commandline
 az group delete --name azure-python-demo-func-7-rg
 ```
