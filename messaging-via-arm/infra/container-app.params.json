@@ -1,0 +1,23 @@
+{
+  "containerAppName": {
+    "value": "messaging-via-arm-app"
+  },
+  "acrName": {
+    "value": "messagingviaarmacr"
+  },
+  "containerImage": {
+    "value": "messagingviaarmacr.azurecr.io/messaging-via-arm:latest"
+  },
+  "containerPort": {
+    "value": 8080
+  },
+  "storageAccountName": {
+    "value": "messagingviaarm"
+  },
+  "storageQueueName": {
+    "value": "uploads-notifications"
+  },
+  "serviceBusNamespace": {
+    "value": "messaging-via-arm-bus"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "containerAppName": {
+    "value": "messaging-via-arm-app"
+  },
+  "acrName": {
+    "value": "messagingviaarmacr"
+  }
+}

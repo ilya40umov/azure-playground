@@ -13,3 +13,12 @@ spring:
         namespace: messaging-via-arm-bus
         entity-type: queue
         entity-name: uploads-notifications
+
+  management:
+    health:
+      azure-storage-blob:
+        enabled: false
+      azure-storage-fileshare:
+        enabled: false
+      azure-storage-queue:
+        enabled: false
