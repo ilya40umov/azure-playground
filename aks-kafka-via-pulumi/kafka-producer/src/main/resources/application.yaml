@@ -2,9 +2,8 @@ spring:
   application:
     name: kafka-producer
 
-  kafka:
-    producer:
-      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
-      value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
-      properties:
-        "[spring.json.add.type.headers]": true
+app:
+  tracking-events-topic:
+    name: tracking-events
+    partitions: 3
+    replicas: 1

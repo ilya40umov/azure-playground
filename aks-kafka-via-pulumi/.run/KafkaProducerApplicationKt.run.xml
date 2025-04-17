@@ -4,7 +4,7 @@
       <env name="SPRING_PROFILES_ACTIVE" value="local" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="me.ilya40umov.demo4kafka.KafkaProducerApplicationKt" />
-    <module name="kafka-microservices.kafka-producer.main" />
+    <module name="aks-kafka-via-pulumi.kafka-producer.main" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

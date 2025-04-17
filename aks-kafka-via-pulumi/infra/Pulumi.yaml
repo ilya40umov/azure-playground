@@ -1,0 +1,3 @@
+name: aks-kafka
+runtime: java
+description: Pulumi infra for AKS + Kafka demo project
