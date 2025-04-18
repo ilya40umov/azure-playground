@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="KafkaConsumerApplicationKt" type="JetRunConfigurationType" nameIsGenerated="true">
     <envs>
-      <env name="SPRING_PROFILES_ACTIVE" value="local" />
+      <env name="SPRING_PROFILES_ACTIVE" value="azure" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="me.ilya40umov.demo4kafka.KafkaConsumerApplicationKt" />
     <module name="aks-kafka-via-pulumi.kafka-consumer.main" />

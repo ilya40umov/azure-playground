@@ -19,8 +19,7 @@ dependencies {
 
 	implementation("com.azure.spring:spring-cloud-azure-starter")
 	implementation("com.azure.spring:spring-cloud-azure-starter-actuator")
-	implementation("com.azure.spring:spring-cloud-azure-starter-data-cosmos")
-	implementation("com.azure.spring:spring-cloud-azure-starter-keyvault")
+	implementation("com.azure.spring:spring-cloud-azure-starter-keyvault-secrets")
 
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.kafka:spring-kafka")

@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-source-enabled: true
+          property-sources[0]:
+            name: azure-kv-property-source
+            endpoint: https://demo4kafka1966161685kv.vault.azure.net/
+
+  kafka:
+    bootstrap-servers: ${event-hub-ns-bootstrap-servers}
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: >-
+            org.apache.kafka.common.security.plain.PlainLoginModule required
+            username="$ConnectionString"
+            password="${event-hub-ns-connection}";
+      ssl:
+        endpoint.identification.algorithm: https

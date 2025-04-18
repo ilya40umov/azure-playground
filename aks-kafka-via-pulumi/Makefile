@@ -14,11 +14,15 @@ build:
 
 rebuild: build
 
-# Usage: make up
-.PHONY: up
+.PHONY: up down
 
+# Usage: make up
 up:
 	docker compose up -d
+
+# Usage: make down
+down:
+	docker compose down -v
 
 # Usage: make list-topics
 .PHONY: list-topics
@@ -36,7 +40,7 @@ describe-topic:
 send-test-events:
 	./bin/send-test-events.sh
 
-.PHONY: pulumi-up pulumi-down
+.PHONY: pulumi-set-subscription-id pulumi-u pulumi-refresh pulumi-down
 
 # Usage: make pulumi-set-subscription-id subscriptionId=xyz
 pulumi-set-subscription-id:
@@ -46,6 +50,16 @@ pulumi-set-subscription-id:
 pulumi-up:
 	pulumi up --cwd infra/ --stack main
 
+# Usage: make pulumi-refresh
+pulumi-refresh:
+	pulumi refresh --cwd infra/ --stack main
+
 # Usage: make pulumi-down
 pulumi-down:
 	pulumi down --cwd infra/ --stack main
+
+.PHONY: aks-credentials
+
+# Usage: make aks-credentials cluster-name=xyz
+aks-credentials:
+	az aks get-credentials --resource-group demo4kafka-rg --name $(cluster-name)
