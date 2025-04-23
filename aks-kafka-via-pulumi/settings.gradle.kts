@@ -1,3 +1,3 @@
 rootProject.name = "aks-kafka-via-pulumi"
 
-include("shared", "kafka-producer", "kafka-consumer", "infra")
+include("shared", "kafka-producer", "kafka-consumer", "az-infra")

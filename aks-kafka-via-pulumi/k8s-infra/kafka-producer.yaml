@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-producer
+  labels:
+    app: kafka-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-producer
+  template:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
+        app: kafka-producer
+    spec:
+      serviceAccountName: demo4kafka
+      containers:
+        - name: nginx
+          image: ${ACR_LOGIN_SERVER}/kafka-producer:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "azure"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-producer
+spec:
+  type: LoadBalancer
+  selector:
+    app: kafka-producer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+...

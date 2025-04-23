@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  labels:
+    app: kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        azure.workload.identity/use: "true"
+        app: kafka-consumer
+    spec:
+      serviceAccountName: demo4kafka
+      containers:
+        - name: nginx
+          image: ${ACR_LOGIN_SERVER}/kafka-consumer:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "azure"
+...

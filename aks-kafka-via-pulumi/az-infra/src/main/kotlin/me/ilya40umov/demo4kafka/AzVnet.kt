@@ -1,12 +1,14 @@
 package me.ilya40umov.demo4kafka
 
 import com.pulumi.azure.network.*
+import com.pulumi.azure.network.inputs.NetworkSecurityGroupSecurityRuleArgs
 import com.pulumi.resources.ComponentResource
 import com.pulumi.resources.CustomResourceOptions
 
 class AzVnet(
     name: String,
     resourceGroup: AzResourceGroup,
+    allowedInboundPorts: List<Int>
 ) : ComponentResource("demo4kafka:AzVnet", name) {
     val vnet = VirtualNetwork(
         "$name-vnet",
@@ -37,6 +39,21 @@ class AzVnet(
         NetworkSecurityGroupArgs.builder()
             .resourceGroupName(resourceGroup.rg.name())
             .location(resourceGroup.rg.location())
+            .securityRules(
+                allowedInboundPorts.mapIndexed { idx, port ->
+                    NetworkSecurityGroupSecurityRuleArgs.Builder()
+                        .name("AllowInternet${port}Inbound")
+                        .access("Allow")
+                        .direction("Inbound")
+                        .priority(100 + idx)
+                        .protocol("Tcp")
+                        .sourcePortRange("*")
+                        .destinationPortRange("$port")
+                        .sourceAddressPrefix("Internet")
+                        .destinationAddressPrefix("*")
+                        .build()
+                }
+            )
             .build(),
         CustomResourceOptions.builder()
             .parent(this)
