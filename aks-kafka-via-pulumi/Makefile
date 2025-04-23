@@ -56,7 +56,7 @@ pulumi-refresh:
 
 # Usage: make pulumi-down
 pulumi-down:
-	pulumi down --cwd infra/ --stack main
+	pulumi down --cwd $(AZ_INFRA_DIR) --stack main
 
 .PHONY: aks-get-credentials
 

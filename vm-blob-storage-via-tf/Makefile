@@ -6,14 +6,6 @@ SHELL := bash
 help:
 	@cat Makefile | grep "^# Usage:"
 
-.PHONY: build rebuild
-
-# Usage: make build
-build:
-	./gradlew -x test build
-
-rebuild: build
-
 .PHONY: tf-init tf-plan tf-apply tf-destroy
 
 # Usage: make tf-init
@@ -31,6 +23,12 @@ tf-apply:
 # Usage: make tf-destroy
 tf-destroy:
 	terraform -chdir=infra/azure destroy -var-file=.tfvars
+
+.PHONY: build 
+
+# Usage: make build
+build:
+	./gradlew -x test build
 
 .PHONY: deploy
 

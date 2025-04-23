@@ -4,12 +4,6 @@ App is written using Spring Boot and is working with Azure Blob Storage
 
 ### Commands
 
-#### To build the jar file
-
-```shell
-make build
-```
-
 #### To initialize terraform
 
 ```shell
@@ -20,6 +14,12 @@ make tf-init
 
 ```shell
 make tf-apply
+```
+
+#### To build the jar file
+
+```shell
+make build
 ```
 
 #### To deploy the jar file to VM
