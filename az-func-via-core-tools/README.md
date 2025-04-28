@@ -11,7 +11,7 @@ make venv
 #### To start locally
 
 ```commandline
-make run-locally
+make func-start
 ```
 
 #### To create infra in Azure
@@ -27,6 +27,7 @@ make deploy
 ```
 
 #### To clean up resources:
+
 ```commandline
-az group delete --name azure-python-demo-func-7-rg
+make destroy-infra
 ```
