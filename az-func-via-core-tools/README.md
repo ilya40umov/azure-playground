@@ -2,6 +2,12 @@
 
 ### Commands
 
+#### To get help
+
+```commandline
+make help
+```
+
 #### Create venv
 
 ```commandline
@@ -24,6 +30,12 @@ make create-infra
 
 ```commandline
 make deploy
+```
+
+#### To send a test request
+
+```commandline
+make send-test-request
 ```
 
 #### To clean up resources:
