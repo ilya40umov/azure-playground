@@ -6,6 +6,12 @@ resource "azurerm_service_plan" "plan" {
   sku_name            = "Y1"
 }
 
+data "archive_file" "function_app_zip" {
+  type       = "zip"
+  source_dir = "../func_code"
+  output_path = "archives/${sha1(join("", [for f in fileset("../func_code", "**") : filesha1("../func_code/${f}")]))}-function.zip"
+}
+
 resource "azurerm_linux_function_app" "function" {
   name                       = "azure-func-tf-a0c87e61"
   location                   = azurerm_resource_group.rg.location
@@ -21,10 +27,15 @@ resource "azurerm_linux_function_app" "function" {
     }
   }
 
+  zip_deploy_file = data.archive_file.function_app_zip.output_path
+
   app_settings = {
-    FUNCTIONS_WORKER_RUNTIME    = "python"
-    WEBSITE_RUN_FROM_PACKAGE    = azurerm_storage_blob.zip.url
-    AzureWebJobsStorage         = azurerm_storage_account.storage.primary_connection_string
+    AzureWebJobsFeatureFlags              = "EnableWorkerIndexing"
+    SCM_DO_BUILD_DURING_DEPLOYMENT        = true
+    ENABLE_ORYX_BUILD                     = true
+    AzureWebJobsStorage                   = azurerm_storage_account.storage.primary_connection_string
+    APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.insights.instrumentation_key
+    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.insights.connection_string
   }
 
   identity {
