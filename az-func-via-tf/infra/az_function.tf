@@ -1,5 +1,5 @@
 resource "azurerm_service_plan" "plan" {
-  name                = "azure-func-tf-plan"
+  name                = "${var.function_name}-plan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
@@ -13,7 +13,7 @@ data "archive_file" "function_app_zip" {
 }
 
 resource "azurerm_linux_function_app" "function" {
-  name                       = "azure-func-tf-a0c87e61"
+  name                       = var.function_name
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
 

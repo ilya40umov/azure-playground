@@ -26,7 +26,7 @@ make zip
 make tf-init
 ```
 
-#### To apply create/update infra
+#### To create/update infra
 
 ```shell
 make tf-apply
