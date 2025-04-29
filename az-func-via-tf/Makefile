@@ -31,7 +31,6 @@ venv:
 
 infra/.tfvars:
 	@printf 'azure_subscription_id=$(shell az account show --query "id")\n' > infra/.tfvars
-	@printf 'function_name="$(function_name)"' >> infra/.tfvars
 
 .PHONY: tf-init tf-plan tf-apply tf-destroy
 
@@ -41,15 +40,15 @@ tf-init:
 
 # Usage: make tf-plan
 tf-plan: infra/.tfvars
-	terraform -chdir=infra plan -var-file=.tfvars
+	terraform -chdir=infra plan -var-file=.tfvars -var="function_name=$(function_name)"
 
 # Usage: make tf-apply
 tf-apply: infra/.tfvars
-	terraform -chdir=infra apply -var-file=.tfvars
+	terraform -chdir=infra apply -var-file=.tfvars -var="function_name=$(function_name)"
 
 # Usage: make tf-destroy
 tf-destroy: infra/.tfvars
-	terraform -chdir=infra destroy -var-file=.tfvars
+	terraform -chdir=infra destroy -var-file=.tfvars -var="function_name=$(function_name)"
 
 .PHONY: send-test-request send-test-requests
 

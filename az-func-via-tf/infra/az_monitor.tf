@@ -22,4 +22,9 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-logs" {
   enabled_log  {
     category = "FunctionAppLogs"
   }
+
+  metric {
+    category = "AllMetrics"
+    enabled = false
+  }
 }

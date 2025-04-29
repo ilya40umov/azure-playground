@@ -25,6 +25,8 @@ resource "azurerm_linux_function_app" "function" {
     application_stack {
       python_version = "3.12"
     }
+    application_insights_connection_string = azurerm_application_insights.insights.connection_string
+    application_insights_key               = azurerm_application_insights.insights.instrumentation_key
   }
 
   zip_deploy_file = data.archive_file.function_app_zip.output_path
@@ -33,13 +35,13 @@ resource "azurerm_linux_function_app" "function" {
     AzureWebJobsFeatureFlags              = "EnableWorkerIndexing"
     SCM_DO_BUILD_DURING_DEPLOYMENT        = true
     ENABLE_ORYX_BUILD                     = true
-    AzureWebJobsStorage                   = azurerm_storage_account.storage.primary_connection_string
-    APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.insights.instrumentation_key
-    APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.insights.connection_string
   }
 
   identity {
     type = "SystemAssigned"
   }
 
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
