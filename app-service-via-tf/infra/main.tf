@@ -4,6 +4,6 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "app-service-tf-rg"
+  name     = "${var.webapp_name}-rg"
   location = var.azure_region
 }

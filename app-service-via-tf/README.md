@@ -8,22 +8,28 @@
 make venv
 ```
 
-#### To package the app
-
-```shell
-make zip
-```
-
 #### To initialize terraform
 
 ```shell
 make tf-init
 ```
 
-#### To apply create/update infra
+#### To create/update infra
 
 ```shell
 make tf-apply
+```
+
+#### To package the app
+
+```shell
+make zip
+```
+
+#### To deploy the app
+
+```shell
+make deploy
 ```
 
 #### To destroy infra
