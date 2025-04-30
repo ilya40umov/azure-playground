@@ -1,14 +1,14 @@
 resource "azurerm_public_ip" "public_ip" {
-  name                = "azure-blob-storage-public-ip"
+  name                = "${var.vm_name}-public-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Basic"
-  domain_name_label = var.dns_label
+  domain_name_label = var.vm_name
 }
 
 resource "azurerm_network_interface" "nic" {
-  name                = "azure-blob-storage-nic"
+  name                = "${var.vm_name}-nic"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -21,7 +21,7 @@ resource "azurerm_network_interface" "nic" {
 }
 
 resource "azurerm_network_security_group" "nsg" {
-  name                = "azure-blob-storage-nsg"
+  name                = "${var.vm_name}-nsg"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -56,7 +56,7 @@ resource "azurerm_network_interface_security_group_association" "nic_nsg" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                  = "azure-blob-storage-vm"
+  name                  = "${var.vm_name}-vm"
   resource_group_name   = azurerm_resource_group.rg.name
   location              = azurerm_resource_group.rg.location
   size                  = "Standard_B1s"
@@ -72,8 +72,15 @@ resource "azurerm_linux_virtual_machine" "vm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    name                 = "myosdisk1"
+    name                 = "${var.vm_name}-disk"
   }
+
+  user_data = base64encode(
+    join("\n", [
+      "#!/bin/bash",
+      "export APPLICATIONINSIGHTS_CONNECTION_STRING='${azurerm_application_insights.insights.connection_string}'"
+    ])
+  )
 
   source_image_reference {
     publisher = "Canonical"
