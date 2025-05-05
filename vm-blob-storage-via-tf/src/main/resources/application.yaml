@@ -9,10 +9,10 @@ spring:
           property-source-enabled: true
           property-sources[0]:
             name: azure-kv-property-source
-            endpoint: https://azure-blob-kv-abc123.vault.azure.net/
+            endpoint: https://az-bstore-432-kv.vault.azure.net/
 
       storage:
         blob:
-          account-name: "sbootblobstorage34ff34ab"
+          account-name: "azbstore432storage"
           account-key: "${storage-access-key}"
 

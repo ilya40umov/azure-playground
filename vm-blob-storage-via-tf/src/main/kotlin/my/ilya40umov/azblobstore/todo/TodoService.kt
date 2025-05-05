@@ -19,7 +19,7 @@ class TodoService(
 
         val blobClient = containerClient.getBlobClient(name)
         try {
-            blobClient.upload(BinaryData.fromString(text))
+            blobClient.upload(BinaryData.fromString(text), true)
         } catch (e: Exception) {
             throw RuntimeException("Failed to upload data to blob", e)
         }

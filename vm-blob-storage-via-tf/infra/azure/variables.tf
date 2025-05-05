@@ -8,6 +8,11 @@ variable "vm_name" {
   description = "Name of the VM"
 }
 
+variable "storage_account_name" {
+  type        = string
+  description = "Storage account name (only [a-zA-Z0-9] chars are allowed)"
+}
+
 variable "azure_region" {
   type        = string
   description = "Azure region to use"

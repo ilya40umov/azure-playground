@@ -1,4 +1,19 @@
 ---
+- name: Set SSH key file permissions to 600 (Ansible in Docker)
+
+  hosts: localhost
+
+  tasks:
+    - name: Get facts on current container
+      community.docker.current_container_facts:
+
+    - name: Ensure SSH private key has 600 permissions
+      when: ansible_module_running_in_container
+      ansible.builtin.file:
+        path: /root/.ssh/id_ed25519
+        mode: '0600'
+        state: file
+
 - name: Deploy JAR file and set up systemd service
 
   hosts: all
@@ -7,6 +22,8 @@
 
   vars:
     username: appuser
+    app_insights_conn:
+    key_vault_endpoint:
 
   tasks:
     - name: Install OpenJDK (Java Runtime Environment)
@@ -39,6 +56,12 @@
         group: "{{ username }}"
         mode: "0755"
 
+    - name: Download application insights agent
+      get_url:
+        url: https://github.com/microsoft/ApplicationInsights-Java/releases/download/3.7.1/applicationinsights-agent-3.7.1.jar
+        dest: /opt/app-insights-agent.jar
+        mode: '0644'
+
     - name: Ensure the directory in /var/log exists
       file:
         path: /var/log/azure-blob-storage
@@ -58,11 +81,15 @@
           [Service]
           User={{ username }}
           Group={{ username }}
-          ExecStart=/usr/bin/java -jar /opt/azure-blob-storage/app.jar
+          ExecStart=/usr/bin/java -javaagent:"/opt/app-insights-agent.jar" -jar /opt/azure-blob-storage/app.jar
           Restart=always
           RestartSec=3
           Environment=JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
           Environment=SPRING_PROFILES_ACTIVE=vm
+          Environment=APPLICATIONINSIGHTS_CONNECTION_STRING={{ app_insights_conn }}
+          Environment=APPLICATIONINSIGHTS_ROLE_NAME=VmBlobStorageApp
+          Environment=SPRING_CLOUD_AZURE_KEYVAULT_SECRET_PROPERTYSOURCES_0_ENDPOINT={{ key_vault_endpoint }}
+          Environment=SPRING_CLOUD_AZURE_STORAGE_BLOB_ACCOUNTNAME={{ storage_account_name }}
           StandardOutput=append:/var/log/azure-blob-storage/output.log
           StandardError=append:/var/log/azure-blob-storage/error.log
 

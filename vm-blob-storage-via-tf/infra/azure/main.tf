@@ -8,7 +8,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "azure-blob-storage-rg"
+  name     = "${var.vm_name}-rg"
   location = var.azure_region
 }
 

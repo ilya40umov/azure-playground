@@ -75,13 +75,6 @@ resource "azurerm_linux_virtual_machine" "vm" {
     name                 = "${var.vm_name}-disk"
   }
 
-  user_data = base64encode(
-    join("\n", [
-      "#!/bin/bash",
-      "export APPLICATIONINSIGHTS_CONNECTION_STRING='${azurerm_application_insights.insights.connection_string}'"
-    ])
-  )
-
   source_image_reference {
     publisher = "Canonical"
     offer     = "ubuntu-24_04-lts"
