@@ -1,9 +1,17 @@
-SHELL := bash
+ifeq ($(OS),Windows_NT)
+	SHELL := bash.exe
+else
+	SHELL := bash
+endif
 
 ifeq ($(OS),Windows_NT)
-    activate_venv = source .venv/Scripts/activate
+    venv_dir := .venv-git-bash # making sure IDE and git-bash are using different python environments
+	activate_venv := $(venv_dir)/Scripts/activate
+	python_cmd := python3.12.exe
 else
-    activate_venv = source .venv/bin/activate
+    venv_dir := .venv
+	activate_venv := source $(venv_dir)/bin/activate
+	python_cmd := python3.12
 endif
 
 function_name ?= azure-func-42-tf
@@ -26,7 +34,8 @@ help:
 
 # Usage: make venv
 venv:
-	python -m venv .venv
+	test ! -z "$$VIRTUAL_ENV" && echo "venv already active" && exit 1
+	$(python_cmd) -m venv $(venv_dir)
 	$(activate_venv) && pip install -r func_code/requirements.txt
 
 infra/.tfvars:

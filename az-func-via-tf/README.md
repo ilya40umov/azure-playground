@@ -14,12 +14,6 @@ make help
 make venv
 ```
 
-#### To package the function
-
-```shell
-make zip
-```
-
 #### To initialize terraform
 
 ```shell

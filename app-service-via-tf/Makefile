@@ -1,13 +1,19 @@
-SHELL := bash
+ifeq ($(OS),Windows_NT)
+	SHELL := bash.exe
+else
+	SHELL := bash
+endif
 
 ifeq ($(OS),Windows_NT)
-	win_shell = powershell
-    activate_venv = source .venv/Scripts/activate
-    zip_command = jar -cfM
+    venv_dir := .venv-git-bash # making sure IDE and git-bash are using different python environments
+	activate_venv := $(venv_dir)/Scripts/activate
+	python_cmd := python3.12.exe
+    zip_cmd = jar -cfM
 else
-	win_shell = 
-    activate_venv = source .venv/bin/activate
-    zip_command = zip -r
+    venv_dir := .venv
+	activate_venv := source $(venv_dir)/bin/activate
+	python_cmd := python3.12
+    zip_cmd = zip -r
 endif
 
 webapp_name ?= app-service-321bc
@@ -30,7 +36,8 @@ help:
 
 # Usage: make venv
 venv:
-	$(win_shell) python -m venv .venv
+	test ! -z "$$VIRTUAL_ENV" && echo "venv already active" && exit 1
+	$(python_cmd) -m venv $(venv_dir)
 	$(activate_venv) && pip install -r app_code/requirements.txt
 
 infra/.tfvars:
@@ -58,7 +65,7 @@ tf-destroy: infra/.tfvars
 
 # Usage: make zip
 zip:
-	cd app_code && $(zip_command) ../app.zip .
+	cd app_code && $(zip_cmd) ../app.zip .
 
 .PHONY: deploy
 

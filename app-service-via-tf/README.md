@@ -32,6 +32,12 @@ make zip
 make deploy
 ```
 
+#### To send a test request
+
+```commandline
+make send-test-request name=Gandalf
+```
+
 #### To destroy infra
 
 ```shell
