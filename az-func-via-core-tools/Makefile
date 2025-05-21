@@ -5,7 +5,8 @@ else
 endif
 
 ifeq ($(OS),Windows_NT)
-	venv_dir := .venv-git-bash # making sure IDE and git-bash are using different python environments
+	# making sure IDE and git-bash are using different python environments
+	venv_dir := .venv-git-bash
 	activate_venv := $(venv_dir)/Scripts/activate
 	python_cmd := python3.12.exe
 else
@@ -39,7 +40,7 @@ help:
 
 # Usage: make venv
 venv:
-	test ! -z "$$VIRTUAL_ENV" && echo "venv already active" && exit 1
+	test -z "$$VIRTUAL_ENV" || ( echo "venv already active"; exit 1 )
 	$(python_cmd) -m venv $(venv_dir)
 	$(activate_venv) && pip install -r requirements.txt
 
